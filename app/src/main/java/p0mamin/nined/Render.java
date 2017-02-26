@@ -159,10 +159,13 @@ public class Render implements GLSurfaceView.Renderer
         }
         if(event.getAction() == MotionEvent.ACTION_UP) {
             //Log.d("Render", "ACTION_UP");
-            if(drag){
+            if(touchTime < 0.05f){
+                batch.OnTouch(x, y, event);
+            }else if(drag){
                 batch.OnDrag(x, y, startx, starty, event);
                 drag = false;
             }
+
         }
 
         if(drag || ((System.currentTimeMillis() - touchTime) + 5) > deltaTime && ((System.currentTimeMillis() - touchTime) - 5) < deltaTime) {
@@ -171,8 +174,11 @@ public class Render implements GLSurfaceView.Renderer
             drag = true;
         }else{
             //Log.d("Render", "onTouch");
-            batch.OnTouch(x, y, event);
+            //if(touchTime < 0.01f)
+            //    batch.OnTouch(x, y, event);
         }
+
+
         //Log.d("Render", "" +(System.currentTimeMillis() - touchTime));
         //Log.d("Render", "" + (((System.currentTimeMillis() - touchTime) + 5) > deltaTime && ((System.currentTimeMillis() - touchTime) - 5) < deltaTime));
         touchTime = System.currentTimeMillis();

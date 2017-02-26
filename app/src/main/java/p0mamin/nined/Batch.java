@@ -81,10 +81,10 @@ public class Batch {
                 break;
             case Choose:
                 if(event.getAction() == MotionEvent.ACTION_DOWN)
-                    if(choose.onTouch(x, y) != State.Default) {
+                    if(choose.onTouch(x, y, event) != State.Default) {
                         //state = choose.onTouch(x, y);
 
-                        state = choose.onTouch(x, y);
+                        state = choose.onTouch(x, y, event);
                     }
                 break;
             case Game:
@@ -108,6 +108,9 @@ public class Batch {
                 if(game.onTouch(x, y) != State.Default)
                     state = game.onTouch(x, y);
                 break;*/
+            case Choose:
+                choose.onDrag(x, y, startx, starty, event);
+                break;
 
         }
     }

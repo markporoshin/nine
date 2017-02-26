@@ -17,17 +17,17 @@ public class MenuPart {
     Button setting;
     Button feedback;
     Button help;
-    //Button exit;
+    Button name;
     Vec2 butp[] = new Vec2[5];
     final int num_of_el = 5;
 
-
+    private final float maxy = 2.4f;
+    private final float miny = 0.2f;
 
     Vec2 r;
     Vec2 pos;
 
     Texture field;
-    Texture name;
 
     float size;
     boolean sw;
@@ -40,8 +40,8 @@ public class MenuPart {
     public MenuPart(MenuScreen screen){
         this.screen = screen;
 
-        r = new Vec2(MainClass.widht / 2.5f, MainClass.height / 2.5f);
-        pos = new Vec2(0, -0.2f);
+        r = new Vec2(MainClass.widht / 3.2f, MainClass.height / 3.2f);
+        pos = new Vec2(0, miny);
         size = MainClass.widht / 3.5f;
 
 
@@ -49,43 +49,56 @@ public class MenuPart {
         setting = new Button(R.drawable.setting, size);
         feedback = new Button(R.drawable.feedback, size);
         help = new Button(R.drawable.help, size);
+        name = new Button(R.drawable.name, size);
         //exit = new Button(R.drawable.exit, size);
         //initpos();
 
-        field = new Texture(R.drawable.square, pos.x, pos.y+0.6f, MainClass.widht,1f / MainClass.ratio);
-        name = new Texture(R.drawable.name, pos.x, pos.y+1.1f, MainClass.widht / 1.9f, MainClass.widht / 1.5f * MainClass.ratio);
+        field = new Texture(R.drawable.square, pos.x, pos.y, MainClass.widht,1f / MainClass.ratio);
         setPos();
     }
 
     public void render(float delta){
         field.draw();
-        name.draw();
+        //name.render(delta);
         play.render(delta);
         setting.render(delta);
         feedback.render(delta);
         help.render(delta);
-        /*if (pos.y < 0) {
-            pos.y += Math.abs(pos.y);
-        }
-        if (pos.y > 2.7f) {
-            pos.y -= Math.abs(pos.y - 2.7f) / 10 + 0.001f;
-        }*/
-        Log.d("render", "pos.y: " + pos.y + " swfinish: " + sw + " direction " + direction);
 
-        if(sw && swFinish){
-            if(pos.y != 0 && pos.y != 1.4f){
+        if(swFinish){
+            if(pos.y != miny && pos.y != maxy){
                 if(direction){
-                    if(pos.y < 1.4f)
-                        pos.y += (1.4 - pos.y) / 10 + 0.01f;
+                    if(pos.y < maxy){
+                        Log.d("MenuPart", "Ooops<");
+                        pos.y += (maxy - pos.y) / 10 + 0.01f;
+                    }
                 }else{
-                    if(pos.y > 0)
-                        pos.y += (0 - pos.y) / 10 + 0.01f;
+                    if(pos.y > miny) {
+                        Log.d("MenuPart", "Ooops>");
+                        pos.y -= (pos.y - miny) / 10 + 0.01f;
+                    }
                 }
             }else{
                 sw = !sw;
                 swFinish = !swFinish;
             }
         }
+        {
+            if (pos.y < miny) {
+                Log.d("MenuPart", "Oooops");
+                pos.y += Math.abs(pos.y - miny) / 30f + 0.01f;
+                if(Math.abs(pos.y - miny) < 0.005){
+                    pos.y = miny;
+                }
+            }
+            if (pos.y > maxy) {
+                pos.y -= Math.abs(pos.y - maxy) / 30f + 0.01f;
+                if(Math.abs(pos.y - maxy) < 0.005){
+                    pos.y = maxy;
+                }
+            }
+        }
+
         setPos();
     }
 
@@ -97,33 +110,31 @@ public class MenuPart {
     }
 
     private void setPos(){
-        field.setPosition(pos.x, (pos.y+0.6f) * MainClass.ratio);
-        name.setPosition(pos.x, (pos.y+1.1f) * MainClass.ratio);
+        field.setPosition(pos.x, (pos.y+0.3f) * MainClass.ratio);
 
         initpos();
-        Log.d("render","" + pos.y);
     }
 
     public void swipe(float y){
-        if(pos.y >= 0 && pos.y <= 1.4f)
+        //if(pos.y >= miny && pos.y <= maxy) {
+            Log.d("MenuPart", "Ooops=");
             pos.y += y;
-
+        //}
+        sw = true;
         setPos();
     }
 
     public void swipeStart(float y){
-        totaly = pos.y;
+        totaly = y;
         sw = true;
     }
 
     public void finishSwipe(float y){
             swFinish = true;
-            if(pos.y < totaly + 0.3f)
+            if(0 > y - totaly)
                 direction = false;
             else
                 direction = true;
-        //Log.d("direction", "" + direction);
-            //sw = true;
     }
 
     private void initpos(){
@@ -131,16 +142,17 @@ public class MenuPart {
         /*for(int i = 0; i < num_of_el; i++){
             butp[i].add(r).rotate(360 / (num_of_el - i)).add(pos).subtract(r);
         }*/
-        butp[0] = new Vec2(0,0).add(r).rotate(360f / 5 * 1.625f).add(pos);
-        butp[1] = new Vec2(0,0).add(r).rotate(360f / 5 * 2.625f).add(pos);
-        butp[2] = new Vec2(0,0).add(r).rotate(360f / 5 * 3.625f).add(pos);
-        butp[3] = new Vec2(0,0).add(r).rotate(360f / 5 * 4.625f).add(pos);
-        butp[4] = new Vec2(0,0).add(r).rotate(360f / 5 * 5.625f).add(pos);
+        butp[0] = new Vec2(0,0).add(r).rotate(360f / 4 * 1).add(pos);
+        butp[1] = new Vec2(0,0).add(r).rotate(360f / 4 * 2).add(pos);
+        butp[2] = new Vec2(0,0).add(r).rotate(360f / 4 * 4).add(pos);
+        butp[3] = new Vec2(0,0).add(r).rotate(360f / 4 * 3).add(pos);
+        //butp[4] = new Vec2(0,0).add(r).rotate(360f / 5 * 5.625f).add(pos).add(new Vec2(0, 0.1f));
 
         play.setPos(butp[0]);
         setting.setPos(butp[1]);
         help.setPos(butp[2]);
         feedback.setPos(butp[3]);
+       // name.setPos(butp[4]);
 
     }
 

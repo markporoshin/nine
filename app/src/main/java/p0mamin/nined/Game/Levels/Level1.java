@@ -40,7 +40,7 @@ public class Level1 extends Level{
         for(int i = 0;i < ZONE;i++) {
             sum[i] = GS.getSum(map, (byte) (i+1));
         }
-        //GS.mix();
+        GS.mix();
         for(int i=0;i<ZONE;i++) {
             resum[i] = GS.getSum(map, (byte) 1);
         }

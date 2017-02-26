@@ -16,6 +16,7 @@ import p0mamin.nined.mathematics.Vec2;
 public class MenuScreen {
     Texture fon;
     Texture record;
+    Texture recordt;
     MenuPart MP;
 
     static boolean dragStart;
@@ -27,21 +28,24 @@ public class MenuScreen {
         oldy = 0;
         MP = new MenuPart(this);
         fon = new Texture(R.drawable.square2, 0, 0, MainClass.widht, MainClass.height / MainClass.ratio);
-        record = new Texture(R.drawable.record, 0, -0.6f, MainClass.widht / 1.3f, MainClass.height / MainClass.ratio / 6.5f);
+        float size = MainClass.widht / 3.8f;
+        record = new Texture(R.drawable.record, -0.75f, -0.805f, size, size);
+        recordt = new Texture(R.drawable.recordt, 0.23f, -0.8f, size * 3, size);
 
     }
 
     public void render(float delta){
         fon.draw();
         record.draw();
-        MP.render(delta);
+        recordt.draw();
+        try {
+            MP.render(delta);
+        }catch(Exception e){
+            Log.e("MenuPart", "" + e);
+        }
     }
 
     public State onTouch(float x, float y){
-
-
-        // dragStart = true;
-        //}
         oldy = y;
         oldx = x;
         return MP.OnTouch(x, y);
@@ -49,14 +53,13 @@ public class MenuScreen {
     public void onDrag(float x, float y,float startx, float starty, MotionEvent event){
         if(event.getAction() == MotionEvent.ACTION_UP){
             dragStart = false;
-            MP.finishSwipe(y - oldy);
+            MP.finishSwipe(y);
 
         }
         else{
             if(dragStart == false) {
                 dragStart = true;
                 MP.swipeStart(y - oldy);
-                Log.d("MenuScreen", "" + dragStart);
             }
             MP.swipe( y - oldy);
         }

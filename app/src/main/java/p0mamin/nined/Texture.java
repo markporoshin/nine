@@ -2,10 +2,13 @@ package p0mamin.nined;
 
 import android.opengl.GLES20;
 import android.opengl.Matrix;
+import android.util.Log;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
+
+import p0mamin.nined.mathematics.Vec2;
 
 import static android.opengl.GLES20.glBindTexture;
 import static android.opengl.GLES20.glEnableVertexAttribArray;
@@ -32,6 +35,11 @@ public class Texture {
     }
 
     public Texture(int id, float x, float y, float sizex, float sizey){
+        try{
+            texture =  TextureManager.find(id);
+        }catch (Exception e){
+            texture =  TextureUtils.loadTexture(Render.context, id);
+        }
         texture =  TextureUtils.loadTexture(Render.context, id);
 
         this.sizex = sizex;
@@ -86,16 +94,19 @@ public class Texture {
         vertexData.put(vertices);
     }
 
+    public  void setPosition(Vec2 pos){
+        setPosition(pos.x, pos.y);
+    }
     public void setPosition(){
         float[] vertices = {
                 //coordinates for sky
-                x-sizex, y+sizey * Render.ratio, z,  0, 0,
-                x+sizex, y+sizey * Render.ratio, z,  1, 0,
-                x+sizex, y-sizey * Render.ratio, z,  1, 1,
+                x-sizex, y+sizey * Render.ratio, z,  0.00001f, 0.00001f,
+                x+sizex, y+sizey * Render.ratio, z,  1 - 0.00001f, 0.00001f,
+                x+sizex, y-sizey * Render.ratio, z,  1 - 0.00001f, 1 - 0.00001f,
 
-                x-sizex, y-sizey * Render.ratio, z,  0, 1,
-                x-sizex, y+sizey * Render.ratio, z,  0, 0,
-                x+sizex, y-sizey * Render.ratio, z,  1, 1,
+                x-sizex, y-sizey * Render.ratio, z,  0.00001f, 1 - 0.00001f,
+                x-sizex, y+sizey * Render.ratio, z,  0.00001f, 0.00001f,
+                x+sizex, y-sizey * Render.ratio, z,  1 - 0.00001f, 1 - 0.00001f,
 
 
         };

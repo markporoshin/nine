@@ -4,31 +4,31 @@ import p0mamin.nined.Game.GameScreen;
 import p0mamin.nined.Game.Level;
 
 /**
- * Created by Mark on 19.02.2017.
+ * Created by Mark on 12.03.2017.
  */
-public class Level3 extends Level {
-    public Level3(){
+public class Level11 extends Level {
+    public Level11(){
         super();
-        lvl = 3;
+        lvl = 11;
         map  = new byte[][]{
-                {0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 2, 2, 2, 2, 0, 0},
+                {0, 0, 0, 2, 2, 0, 0, 0},
                 {0, 0, 1, 1, 2, 2, 0, 0},
-                {0, 0, 1, 1, 1, 1, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 1, 1, 1, 2, 2, 0, 0},
+                {0, 1, 1, 2, 2, 2, 0, 0},
+                {0, 1, 1, 2, 2, 1, 0, 0},
+                {0, 1, 1, 1, 1, 1, 0, 0},
+                {0, 0, 1, 1, 1, 0, 0, 0},
                 {0, 0, 0, 0, 0, 0, 0, 0}
         };//mark check point
         field = new boolean[][]{
+                {true, true, true,  false, true, true, true, true},
                 {true, true, true,  true, true, true, true, true},
+                {true, true, true,  false, true, true, false, true},
                 {true, true, true,  true, true, true, true, true},
-                {true, true, false, true, true, false,true, true},
-                {true, true, true,  true, true, true, false,true},
-                {true, false,true,  true, true, true, true, true},
+                {true, false, true,  true, true, true, true, true},
+                {true, true, true,  true, false, true, true, true},
                 {true, true, true,  true, true, true, true, true},
-                {true, true, false, true, true, false, true, true},
-                {true, true, true,  true, true, true, true, true}};
+                {true, true, true,  true, false, true, true, true}};
         ZONE = 2;
         sum = new int[ZONE];
         resum = new int[ZONE];
@@ -43,7 +43,4 @@ public class Level3 extends Level {
             resum[i] = GS.getSum(map, (byte) 1);
         }
     }
-
 }
-
-

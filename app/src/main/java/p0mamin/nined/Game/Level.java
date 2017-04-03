@@ -2,14 +2,20 @@ package p0mamin.nined.Game;
 
 import android.util.Log;
 
+import java.util.LinkedList;
+
 import p0mamin.nined.Batch;
+import p0mamin.nined.Game.Levels.Addition;
+
 import p0mamin.nined.Game.Levels.Shape;
+import p0mamin.nined.Menu.ChooseScreen;
 import p0mamin.nined.State;
 
 /**
  * Created by Mark on 12.02.2017.
  */
 public class Level {
+    protected int lvl;
     public static final int MAX_ZONE = 5;
     protected int ZONE;
     protected int[] sum;
@@ -18,6 +24,7 @@ public class Level {
     protected boolean[][] field;
     protected GameScreen GS;
     protected Shape SP;
+
     public Level(){
 
     }
@@ -30,7 +37,12 @@ public class Level {
         reshape();
         GS.render(delta, sum, resum);
         if(check()){
-            Batch.state = State.Win;
+            Batch.DB.setInt("lvl" + lvl, (int)GS.DF.time);
+            ChooseScreen.lvl++;
+            Batch.state = State.Game;
+            if(Batch.DB.getInt("lvllost") < this.lvl){
+                Batch.DB.setInt("lvllost", this.lvl);
+            }
         }
     }
 
@@ -45,6 +57,11 @@ public class Level {
         for(int i = 0;i < ZONE;i++){
             if(!(sum[i] == resum[i]))
                 return false;
+        }
+        for (Addition a: GS.additions) {
+            if(!a.check()){
+                return false;
+            }
         }
         return  true;
     }

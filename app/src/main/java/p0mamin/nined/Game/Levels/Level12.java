@@ -4,32 +4,32 @@ import p0mamin.nined.Game.GameScreen;
 import p0mamin.nined.Game.Level;
 
 /**
- * Created by Mark on 19.02.2017.
+ * Created by Mark on 12.03.2017.
  */
-public class Level5 extends Level {
-    public Level5(){
+public class Level12 extends Level {
+    public Level12(){
         super();
-        lvl = 5;
+        lvl = 12;
         map  = new byte[][]{
-                {0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 2},
-                {0, 0, 0, 0, 0, 0, 0, 2},
-                {1, 0, 0, 0, 0, 0, 2, 2},
+                {4, 4, 0, 0, 0, 3, 3, 0},
+                {4, 0, 0, 3, 3, 3, 3, 0},
+                {0, 0, 3, 3, 3, 1, 1, 1},
+                {3, 3, 3, 1, 1, 1, 1, 1},
+                {3, 3, 1, 1, 1, 2, 2, 2},
                 {1, 1, 1, 2, 2, 2, 2, 2},
-                {1, 1, 1, 2, 2, 2, 2, 2},
-                {1, 1, 1, 1, 2, 2, 2, 2}
+                {1, 1, 2, 2, 2, 0, 0, 4},
+                {0, 0, 2, 0, 0, 0, 4, 4}
         };//mark check point
         field = new boolean[][]{
+                {true, true, true,  false, true, true, true, true},
+                {true, true, true,  true, true, true, true, true},
+                {true, false, true,  true, true, true, true, true},
+                {true, true, true,  true, true, true, false, true},
                 {true, true, true,  true, true, true, true, true},
                 {true, true, true,  true, true, true, true, true},
-                {true, true, true,  true, true, true, false,true},
                 {true, true, true,  true, true, true, true, true},
-                {true, true, true,  true, false,true, true, true},
-                {true, true, false, true, true, true, true, true},
-                {true, true, true,  true, true, true, true, true},
-                {true, true, true,  true, true, true, true, true}};
-        ZONE = 2;
+                {true, true, true,  true, false, true, true, true}};
+        ZONE = 4;
         sum = new int[ZONE];
         resum = new int[ZONE];
         SP = new Shape(map ,ZONE);
@@ -43,6 +43,4 @@ public class Level5 extends Level {
             resum[i] = GS.getSum(map, (byte) 1);
         }
     }
-
 }
-

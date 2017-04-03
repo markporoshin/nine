@@ -3,6 +3,8 @@ package p0mamin.nined;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.content.pm.ConfigurationInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -20,19 +22,36 @@ import android.widget.Toast;
 
 public class MainClass extends Activity{
     /** Hold a reference to our GLSurfaceView */
+    public static  Activity activity;
     private GLSurfaceView mGLSurfaceView;
     private TextView tv;
     private Render render;
+    public static boolean vizits = false;
     public static float ratio;
     public static float height = 1f;
     public static float widht = 1f;
+
+
+    public static SharedPreferences data_base;
+    public static final String APP_PREFERENCES = "app_data";
+
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        activity = this;
         super.onCreate(savedInstanceState);
         mGLSurfaceView = new GLSurfaceView(this);
 
+        data_base = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
+        if(data_base.getBoolean("Vizits", true)){
+            vizits = true;
+            SharedPreferences.Editor editor = MainClass.data_base.edit();
+            editor.putBoolean("Vizits", false);
+            editor.apply();
+        }
 
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         DisplayMetrics displaymetrics = getResources().getDisplayMetrics();
         final int width, hieght;
         // узнаем размеры экрана из класса Display
@@ -71,6 +90,7 @@ public class MainClass extends Activity{
                 return true;
             }
         });
+        //mGLSurfaceView.setOnBack
 
 
         /*mGLSurfaceView.setOnDragListener(new View.OnDragListener() {
@@ -88,7 +108,7 @@ public class MainClass extends Activity{
     {
         // The activity must call the GL surface view's onResume() on activity onResume().
         super.onResume();
-        mGLSurfaceView.onResume();
+        //mGLSurfaceView.onResume();
     }
 
     @Override
@@ -96,7 +116,13 @@ public class MainClass extends Activity{
     {
         // The activity must call the GL surface view's onPause() on activity onPause().
         super.onPause();
-        mGLSurfaceView.onPause();
+        //mGLSurfaceView.onPause();
     }
 
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+
+        render.onBackPressed();
+    }
 }

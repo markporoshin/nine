@@ -1,6 +1,7 @@
 package p0mamin.nined.Menu;
 
 import android.util.Log;
+import android.view.MotionEvent;
 
 import p0mamin.nined.Button;
 import p0mamin.nined.MainClass;
@@ -26,14 +27,9 @@ public class MenuPart {
 
     Vec2 r;
     Vec2 pos;
-
     Texture field;
-
     float size;
-    boolean sw;
-    boolean swFinish;
-    boolean direction;
-    float totaly;
+
 
     MenuScreen screen;
 
@@ -45,116 +41,140 @@ public class MenuPart {
         size = MainClass.widht / 3.5f;
 
 
-        play  = new Button(R.drawable.play, size);
+        play  = new Button(R.drawable.play, size*1.5f);
         setting = new Button(R.drawable.setting, size);
-        feedback = new Button(R.drawable.feedback, size);
-        help = new Button(R.drawable.help, size);
+        feedback = new Button(R.drawable.help, size);
+        help = new Button(R.drawable.feedback, size);
         name = new Button(R.drawable.name, size);
-        //exit = new Button(R.drawable.exit, size);
-        //initpos();
 
-        field = new Texture(R.drawable.square, pos.x, pos.y, MainClass.widht,1f / MainClass.ratio);
+        field = new Texture(R.drawable.square_0, pos.x, pos.y + 1.3f, MainClass.widht,1f / MainClass.ratio * 1.5f);
         setPos();
     }
 
-    public void render(float delta){
-        field.draw();
-        //name.render(delta);
-        play.render(delta);
-        setting.render(delta);
-        feedback.render(delta);
-        help.render(delta);
 
-        if(swFinish){
-            if(pos.y != miny && pos.y != maxy){
-                if(direction){
-                    if(pos.y < maxy){
-                        Log.d("MenuPart", "Ooops<");
-                        pos.y += (maxy - pos.y) / 10 + 0.01f;
-                    }
-                }else{
-                    if(pos.y > miny) {
-                        Log.d("MenuPart", "Ooops>");
-                        pos.y -= (pos.y - miny) / 10 + 0.01f;
-                    }
-                }
-            }else{
-                sw = !sw;
-                swFinish = !swFinish;
-            }
-        }
-        {
-            if (pos.y < miny) {
-                Log.d("MenuPart", "Oooops");
-                pos.y += Math.abs(pos.y - miny) / 30f + 0.01f;
-                if(Math.abs(pos.y - miny) < 0.005){
-                    pos.y = miny;
-                }
-            }
-            if (pos.y > maxy) {
-                pos.y -= Math.abs(pos.y - maxy) / 30f + 0.01f;
-                if(Math.abs(pos.y - maxy) < 0.005){
-                    pos.y = maxy;
-                }
-            }
-        }
-
-        setPos();
-    }
-
-    public State OnTouch(float x, float y){
-        if(play.touch(x, y)){
+    public State onDrag(float x, float y,float startx, float starty, MotionEvent event){
+        if(play.onDrag(x, y, startx, starty, event)){
             return State.Choose;
+        }else if(help.onDrag(x, y,startx, starty, event)){
+            return State.Help;
+        }else if(feedback.onDrag(x, y, startx, starty, event)) {
+            return State.Feedback;
         }
         return State.Default;
     }
 
-    private void setPos(){
-        field.setPosition(pos.x, (pos.y+0.3f) * MainClass.ratio);
+    public void render(float delta){
+        field.draw();
+        play.render(delta);
+        feedback.render(delta);
+        help.render(delta);
 
-        initpos();
-    }
-
-    public void swipe(float y){
-        //if(pos.y >= miny && pos.y <= maxy) {
-            Log.d("MenuPart", "Ooops=");
-            pos.y += y;
-        //}
-        sw = true;
+        if(dir != 0){
+            finishSwipeRender(delta);
+        }
         setPos();
     }
 
-    public void swipeStart(float y){
-        totaly = y;
-        sw = true;
+    public State OnTouch(float x, float y, MotionEvent event){
+        if(play.onTouch(x, y)){
+            return State.Choose;
+        }else if(help.onTouch(x, y)){
+            return State.Help;
+        }else if(feedback.onTouch(x, y)) {
+            return State.Feedback;
+        }
+        return State.Default;
     }
 
-    public void finishSwipe(float y){
-            swFinish = true;
-            if(0 > y - totaly)
-                direction = false;
-            else
-                direction = true;
+    public void onDown(float x, float y){
+        play.onDown(x, y);
+        help.onDown(x, y);
+        feedback.onDown(x, y);
+        setting.onDown(x, y);
     }
+
+    private void setPos(){
+        field.setPosition(pos.x, (pos.y+1.3f) * MainClass.ratio);
+        initpos();
+    }
+
+
 
     private void initpos(){
-
-        /*for(int i = 0; i < num_of_el; i++){
-            butp[i].add(r).rotate(360 / (num_of_el - i)).add(pos).subtract(r);
-        }*/
-        butp[0] = new Vec2(0,0).add(r).rotate(360f / 4 * 1).add(pos);
+        butp[0] = new Vec2(0,0.45f + pos.y);
         butp[1] = new Vec2(0,0).add(r).rotate(360f / 4 * 2).add(pos);
         butp[2] = new Vec2(0,0).add(r).rotate(360f / 4 * 4).add(pos);
         butp[3] = new Vec2(0,0).add(r).rotate(360f / 4 * 3).add(pos);
         //butp[4] = new Vec2(0,0).add(r).rotate(360f / 5 * 5.625f).add(pos).add(new Vec2(0, 0.1f));
 
         play.setPos(butp[0]);
-        setting.setPos(butp[1]);
-        help.setPos(butp[2]);
+        help.setPos(butp[1]);
         feedback.setPos(butp[3]);
-       // name.setPos(butp[4]);
-
     }
 
 
+    public static boolean position = true;
+    public static boolean onSwipe = false;
+    public static boolean rape = false;
+    public static byte dir = 0;
+    private float time = 0;
+    private float old_x, old_y;
+
+    public void startSwipe(float x, float y){
+        onSwipe = true;
+        old_y = y;
+    }
+
+    public void onSwipe(float x, float y){
+        pos.y += y - old_y;
+        old_y = y;
+    }
+
+    public void finishSwipe(float x, float y, float startx, float starty){
+        time = 0;
+        if(y - starty < -0.4f){
+            dir = 2;
+        } else if(pos.y >= (miny + maxy) / 2){
+            dir = 1;
+        }
+        if(y - starty > 0.4f){
+            dir = 1;
+        } else if(pos.y < (miny + maxy) / 2){
+            dir = 2;
+        }
+        position = !position;
+    }
+
+    public void finishSwipeRender(float delta){
+
+        switch (dir){
+            case 1:
+                time += delta;
+                pos.y += (maxy - pos.y) * delta * 5;
+                rape = false;
+                break;
+            case 2:
+                time += delta;
+                pos.y += (miny - pos.y) * delta * 5;
+                rape = false;
+                break;
+        }
+        if(time > 0.9) {
+            if ((Math.abs(maxy - pos.y) < 0.01f && dir == 1)) {
+                pos.y = maxy;
+                dir = 0;
+                onSwipe = false;
+                position = false;
+            }
+
+            if ((Math.abs(miny - pos.y) < 0.01f && dir == 2)) {
+                pos.y = miny;
+                dir = 0;
+                onSwipe = false;
+                position = true;
+            }
+        }
+
+
+    }
 }

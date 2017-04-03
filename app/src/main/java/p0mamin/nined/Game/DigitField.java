@@ -1,17 +1,11 @@
 package p0mamin.nined.Game;
 
 import android.util.Log;
-import android.view.MotionEvent;
-import android.view.View;
 
 import java.util.Random;
 
-import p0mamin.nined.Batch;
 import p0mamin.nined.Button;
 import p0mamin.nined.MainClass;
-import p0mamin.nined.Render;
-import p0mamin.nined.State;
-import p0mamin.nined.Texture;
 import p0mamin.nined.font.Font;
 import p0mamin.nined.mathematics.Vec2;
 
@@ -41,15 +35,15 @@ public class DigitField {
                 r = Math.abs(rand.nextInt()%9) + 1;
                 List[i][j] = new Digit(r, rotateble[MAX-j-1][i]);
                 List[i][j].setPos(new Vec2( (i+1.5f) * MainClass.widht / offset - 1,
-                        ((j+1.5f) * MainClass.widht / offset + MainClass.height / 2f) - 1));
+                        ((j+1.f) * MainClass.widht / offset + MainClass.height / 2f) - 1));
                 Log.d("TAG","  " + List[i][j].pos.x + "  " + List[i][j].pos.y);
             }
 
         for (int i = 0; i < MAX-1; i++)
             for (int j = 0; j < MAX-1; j++) {
                 Buttons[i][j] = new Button((float)MainClass.widht / 11f
-                        ,(float)(i+2f) * MainClass.widht / offset - 1f
-                        ,(float)(j+2f) * MainClass.widht / offset + MainClass.height / 2f - 1f);
+                        ,(float)(i+2.f) * MainClass.widht / offset - 1f
+                        ,(float)(j+1.5f) * MainClass.widht / offset + MainClass.height / 2f - 1f);
             }
 
     }
@@ -84,7 +78,7 @@ public class DigitField {
         if (ds.rot) {
             ds.rotate(delta);
         }
-        n.draw((int)time, 0 - ((int)time+"").length() * 0.02f, 0.90f, 0.1f);
+        n.draw((int)time, 0 - ((int)time+"").length() * 0.02f, 0.85f, 0.1f);
 
     }
 
@@ -102,7 +96,7 @@ public class DigitField {
     public void OnTouch(float x, float y){
         for (int i = 0; i < MAX-1; i++)
             for (int j = 0; j < MAX-1; j++) {
-                if(Buttons[i][j].touch(x, y)){
+                if(Buttons[i][j].onTouch(x, y)){
                     rotate(i, j);
                 }
             }
@@ -127,6 +121,15 @@ public class DigitField {
             }
     }
 
+    public void mix0(){
+        DigitSquare d = new DigitSquare();
+        d = new DigitSquare(this, 2, 2);
+        d.finishRot();
+        d = new DigitSquare(this, 2, 2);
+        d.finishRot();
+        d = new DigitSquare(this, 2, 2);
+        d.finishRot();
+    }
 
 
 

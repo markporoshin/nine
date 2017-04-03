@@ -4,37 +4,38 @@ import p0mamin.nined.Game.GameScreen;
 import p0mamin.nined.Game.Level;
 
 /**
- * Created by Mark on 19.02.2017.
+ * Created by Mark on 12.03.2017.
  */
-public class Level3 extends Level {
-    public Level3(){
+public class Level30 extends Level {
+    public Level30(){
         super();
-        lvl = 3;
+        lvl = 30;
         map  = new byte[][]{
-                {0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 2, 2, 2, 2, 0, 0},
-                {0, 0, 1, 1, 2, 2, 0, 0},
-                {0, 0, 1, 1, 1, 1, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0}
+                {1, 1, 2, 1, 1, 4, 4, 4},
+                {1, 2, 2, 2, 1, 1, 4, 4},
+                {1, 2, 2, 2, 1, 1, 1, 1},
+                {1, 1, 2, 1, 1, 1, 3, 3},
+                {1, 1, 1, 1, 1, 3, 3, 3},
+                {1, 1, 2, 2, 1, 1, 1, 1},
+                {1, 2, 2, 2, 1, 4, 1, 1},
+                {1, 2, 2, 1, 1, 4, 4, 1}
         };//mark check point
         field = new boolean[][]{
                 {true, true, true,  true, true, true, true, true},
+                {true, true, true,  true, true, false, true, true},
+                {true, true, true,  false, true, true, true, true},
                 {true, true, true,  true, true, true, true, true},
-                {true, true, false, true, true, false,true, true},
-                {true, true, true,  true, true, true, false,true},
-                {true, false,true,  true, true, true, true, true},
+                {true, true, false,  true, true, true, true, true},
                 {true, true, true,  true, true, true, true, true},
-                {true, true, false, true, true, false, true, true},
+                {true, true, false,  true, true, true, false, true},
                 {true, true, true,  true, true, true, true, true}};
-        ZONE = 2;
+        ZONE = 4;
         sum = new int[ZONE];
         resum = new int[ZONE];
         SP = new Shape(map ,ZONE);
         GS = new GameScreen(field, map, ZONE);
-
+        GS.additions.add(new Addition(2, false));
+        GS.additions.add(new Addition(7, false));
         for(int i = 0;i < ZONE;i++) {
             sum[i] = GS.getSum(map, (byte) (i+1));
         }
@@ -43,7 +44,4 @@ public class Level3 extends Level {
             resum[i] = GS.getSum(map, (byte) 1);
         }
     }
-
 }
-
-

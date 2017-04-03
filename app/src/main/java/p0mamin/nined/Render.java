@@ -1,16 +1,21 @@
 package p0mamin.nined;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
+import android.provider.Settings;
+import android.util.Log;
 import android.view.MotionEvent;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
+import static android.opengl.GLES20.GL_ALPHA;
 import static android.opengl.GLES20.glClear;
 import static android.opengl.GLES20.glClearColor;
+import static android.opengl.GLES20.glEnable;
 import static android.opengl.GLES20.glGetAttribLocation;
 import static android.opengl.GLES20.glGetUniformLocation;
 import static android.opengl.GLES20.glUniformMatrix4fv;
@@ -53,28 +58,36 @@ public class Render implements GLSurfaceView.Renderer
     Batch batch;
 
     private static long touchTime;
+    private static long upTime;
+    private static long downTime;
     private float startx, starty;
     private boolean drag;
     public static float ratio = MainClass.ratio;
     public static  float z = 0;
+    private Texture fon;
+    private boolean flag;
+    private boolean flag2;
+    //private static float oldx, oldy;
     /**
      * Initialize the model data.
      */
     public Render(Context context) {
         this.context = context;
-        this.
-        batch = new Batch();
+        Log.d("Create", "render create");
+
     }
 
     @Override
     public void onSurfaceCreated(GL10 arg0, EGLConfig arg1) {
-        glClearColor(0f, 0f, 0f, 1f);
+        glClearColor(0, 0, 0, 1);
         //glEnable(GLES20.GL_DEPTH_TEST);
-        batch = new Batch();
         createAndUseProgram();
         getLocations();
         createViewMatrix();
+        fon = new Texture(R.drawable.downloading, 0, 0, 1, 1/ MainClass.ratio);
         touchTime = 0;
+        flag = true;
+        flag2 = true;
         drag = false;
     }
 
@@ -120,6 +133,8 @@ public class Render implements GLSurfaceView.Renderer
     }
 
     private void createViewMatrix() {
+        //glEnable(GL_ALPHA);
+
         // точка полоения камеры
         float eyeX = 0f;
         float eyeY = 0f;
@@ -146,43 +161,64 @@ public class Render implements GLSurfaceView.Renderer
         deltaTime =  System.currentTimeMillis()-lastTime;
         lastTime = System.currentTimeMillis();
         glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
+        glClearColor(0, 0, 0, 1);
         //Log.d("Time", "" + deltaTime/1000.0f);
         createViewMatrix();
-        batch.render(deltaTime /1000.0f);
+        try {
+            if(flag) {
+                fon.draw();
+                if(flag2){
+                    flag2 =! flag2;
+                }else {
+                    this.batch = new Batch();
+                    flag = !flag;
+                }
+            }else {
+                batch.render(deltaTime / 1000.0f);
+            }
+        }catch (Exception e){
+            Log.d("Render", "" + e);
+        }
     }
 
     public void OnTouchListener(float x, float y, MotionEvent event){
-        if(event.getAction() == MotionEvent.ACTION_DOWN){
-            //Log.d("Render","ACTION_DOWN");
-            startx = x;
-            starty = y;
-        }
-        if(event.getAction() == MotionEvent.ACTION_UP) {
-            //Log.d("Render", "ACTION_UP");
-            if(touchTime < 0.05f){
-                batch.OnTouch(x, y, event);
-            }else if(drag){
-                batch.OnDrag(x, y, startx, starty, event);
-                drag = false;
+        try {
+            if(event.getAction() == MotionEvent.ACTION_DOWN){
+                Log.d("Render", "onDown");
+                batch.onDown(x, y);
+                downTime = System.currentTimeMillis();
+                startx = x;
+                starty = y;
+            }
+            if (event.getAction() == MotionEvent.ACTION_UP) {
+                if (Math.abs(startx - x) < 0.05f && Math.abs(starty - y) < 0.05f) {
+                    batch.OnTouch(x, y, event);
+                } else if (drag) {
+                    batch.OnDrag(x, y, startx, starty, event);
+                    drag = false;
+                }
+
             }
 
+            if (drag || ((System.currentTimeMillis() - touchTime) + 5) > deltaTime && ((System.currentTimeMillis() - touchTime) - 5) < deltaTime) {
+                batch.OnDrag(x, y, startx, starty, event);
+                //Log.d("Render", "onDrag");
+                drag = true;
+            }
+
+
+            //Log.d("Render", "" +(System.currentTimeMillis() - touchTime));
+            //Log.d("Render", "" + (((System.currentTimeMillis() - touchTime) + 5) > deltaTime && ((System.currentTimeMillis() - touchTime) - 5) < deltaTime));
+            touchTime = System.currentTimeMillis();
+
+
+        }catch (Exception e){
+            Log.d("Render", "" + e);
         }
+    }
 
-        if(drag || ((System.currentTimeMillis() - touchTime) + 5) > deltaTime && ((System.currentTimeMillis() - touchTime) - 5) < deltaTime) {
-            batch.OnDrag(x, y, startx, starty, event);
-            //Log.d("Render", "onDrag");
-            drag = true;
-        }else{
-            //Log.d("Render", "onTouch");
-            //if(touchTime < 0.01f)
-            //    batch.OnTouch(x, y, event);
-        }
-
-
-        //Log.d("Render", "" +(System.currentTimeMillis() - touchTime));
-        //Log.d("Render", "" + (((System.currentTimeMillis() - touchTime) + 5) > deltaTime && ((System.currentTimeMillis() - touchTime) - 5) < deltaTime));
-        touchTime = System.currentTimeMillis();
-
+    public void onBackPressed(){
+        batch.onBackPressed();
     }
 
 

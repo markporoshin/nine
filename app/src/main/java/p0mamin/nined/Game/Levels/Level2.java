@@ -10,15 +10,16 @@ import p0mamin.nined.Game.Level;
 public class Level2 extends Level {
     public Level2(){
         super();
+        lvl = 2;
         map  = new byte[][]{
+                {0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0},
                 {0, 0, 1, 1, 2, 2, 0, 0},
-                {0, 1, 1, 1, 2, 2, 2, 0},
-                {1, 1, 1, 1, 2, 2, 2, 2},
-                {1, 1, 1, 1, 2, 2, 2, 2},
-                {4, 4, 4, 4, 3, 3, 3, 3},
-                {4, 4, 4, 4, 3, 3, 3, 3},
-                {0, 4, 4, 4, 3, 3, 3, 0},
-                {0, 0, 4, 4, 3, 3, 0, 0}
+                {0, 0, 1, 1, 2, 2, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0}
         };
         field = new boolean[][]{
                 {true, true, true,  true, true, true, true, true},
@@ -29,7 +30,7 @@ public class Level2 extends Level {
                 {true, true, false, true, true, false,true, true},
                 {true, true, true,  true, true, true, true, true},
                 {true, true, true,  true, true, true, true, true}};
-        ZONE = 4;
+        ZONE = 2;
         sum = new int[ZONE];
         resum = new int[ZONE];
         SP = new Shape(map ,ZONE);

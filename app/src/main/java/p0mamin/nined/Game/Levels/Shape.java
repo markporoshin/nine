@@ -1,5 +1,7 @@
 package p0mamin.nined.Game.Levels;
 
+import android.util.Log;
+
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
@@ -22,7 +24,7 @@ public class Shape {
     private Texture[] sums;
     private Texture[] resums;
     ArrayList<Texture> figure  = new ArrayList<Texture>();
-    Font n1;
+    public static Font n1;
     public Shape(byte map[][], int zone) {
         n1= new Font(0.035f);
         sums = new Texture[zone];
@@ -30,30 +32,26 @@ public class Shape {
         for (int i = 0; i < zone; i++) {
             switch (i) {
                 case 0:
-                    sums[i] = new Texture(R.drawable.squareblue);
-                    resums[i] = new Texture(R.drawable.squareblue);
+                    sums[i] = new Texture(R.drawable.square_1);
+                    resums[i] = new Texture(R.drawable.square_1);
                     break;
                 case 1:
-                    sums[i] = new Texture(R.drawable.squaregreen);
-                    resums[i] = new Texture(R.drawable.squaregreen);
+                    sums[i] = new Texture(R.drawable.square_2);
+                    resums[i] = new Texture(R.drawable.square_2);
                     break;
                 case 2:
-                    sums[i] = new Texture(R.drawable.squareorange);
-                    resums[i] = new Texture(R.drawable.squareorange);
+                    sums[i] = new Texture(R.drawable.square_3);
+                    resums[i] = new Texture(R.drawable.square_3);
                     break;
                 case 3:
-                    sums[i] = new Texture(R.drawable.squareyellow);
-                    resums[i] = new Texture(R.drawable.squareyellow);
-                    break;
-                case 4:
-                    sums[i] = new Texture(R.drawable.square);
-                    resums[i] = new Texture(R.drawable.square);
+                    sums[i] = new Texture(R.drawable.square_4);
+                    resums[i] = new Texture(R.drawable.square_4);
                     break;
                 default:
                     break;
             }
-            sums[i].setSize(MainClass.widht / DigitField.offset / 2.5f, MainClass.widht / DigitField.offset / 2.5f);
-            resums[i].setSize(MainClass.widht / DigitField.offset / 2.5f, MainClass.widht / DigitField.offset / 2.5f);
+            sums[i].setSize(MainClass.widht / DigitField.offset / 1.5f, MainClass.widht / DigitField.offset / 1.5f);
+            resums[i].setSize(MainClass.widht / DigitField.offset / 1.5f, MainClass.widht / DigitField.offset / 1.5f);
         }
 
         int k = 0;
@@ -65,28 +63,28 @@ public class Shape {
                         figure.add(new Texture(R.drawable.squareblue));
                         figure.get(k).setSize(MainClass.widht / DigitField.offset / 2, MainClass.widht / DigitField.offset / 2);
                         figure.get(k).setPosition((i + 1.5f) * MainClass.widht / DigitField.offset - 1,
-                                (((j + 1.5f) * MainClass.widht / DigitField.offset + MainClass.height / 2f) - 1) * MainClass.ratio);
+                                (((j + 1.f) * MainClass.widht / DigitField.offset + MainClass.height / 2f) - 1) * MainClass.ratio);
                         k++;
                         break;
                     case 2:
                         figure.add(new Texture(R.drawable.squaregreen));
                         figure.get(k).setSize(MainClass.widht / DigitField.offset / 2, MainClass.widht / DigitField.offset / 2);
                         figure.get(k).setPosition((i + 1.5f) * MainClass.widht / DigitField.offset - 1,
-                                (((j + 1.5f) * MainClass.widht / DigitField.offset + MainClass.height / 2f) - 1) * MainClass.ratio);
+                                (((j + 1.f) * MainClass.widht / DigitField.offset + MainClass.height / 2f) - 1) * MainClass.ratio);
                         k++;
                         break;
                     case 3:
                         figure.add(new Texture(R.drawable.squareorange));
                         figure.get(k).setSize(MainClass.widht / DigitField.offset / 2, MainClass.widht / DigitField.offset / 2);
                         figure.get(k).setPosition((i + 1.5f) * MainClass.widht / DigitField.offset - 1,
-                                (((j + 1.5f) * MainClass.widht / DigitField.offset + MainClass.height / 2f) - 1) * MainClass.ratio);
+                                (((j + 1.f) * MainClass.widht / DigitField.offset + MainClass.height / 2f) - 1) * MainClass.ratio);
                         k++;
                         break;
                     case 4:
                         figure.add(new Texture(R.drawable.squareyellow));
                         figure.get(k).setSize(MainClass.widht / DigitField.offset / 2, MainClass.widht / DigitField.offset / 2);
                         figure.get(k).setPosition((i + 1.5f) * MainClass.widht / DigitField.offset - 1,
-                                (((j + 1.5f) * MainClass.widht / DigitField.offset + MainClass.height / 2f) - 1) * MainClass.ratio);
+                                (((j + 1.f) * MainClass.widht / DigitField.offset + MainClass.height / 2f) - 1) * MainClass.ratio);
                         k++;
                         break;
                     case 5:
@@ -114,6 +112,10 @@ public class Shape {
             while(t > 1){
                 t = t / 10;
                 k++;
+            }if(sum[i] == 10){
+                k = 2;
+            }if(sum[i] == 100){
+                k = 3;
             }
 
             int k1 = 0;
@@ -121,17 +123,30 @@ public class Shape {
             while(t1 > 1){
                 t1 = t1 / 10;
                 k1++;
+            }if(resum[i] == 10){
+                k1 = 2;
+            }if(resum[i] == 100){
+                k1 = 3;
             }
+
+            if(k == 3){
+                k = 4;
+            }
+
+            if(k1 == 3){
+                k1 = 4;
+            }
+
             float h1 = 2f, h2 = 1.5f;
-            sums[i].setPosition(((float)(i+1))*MainClass.widht/(zone + 1) * 2 - 1, -MainClass.height/h1);
+            sums[i].setPosition(((float)(i+1))*MainClass.widht/(zone + 1) * 2 - 1, -MainClass.height/h1*1.15f);
             sums[i].draw();
 
-            n1.draw(sum[i], ((float)(i+1))*MainClass.widht/(zone + 1) * 2 - 1 - k * n1.s / 2, -MainClass.height/h1, MainClass.height / 18);
+            n1.draw(sum[i], ((float)(i+1))*MainClass.widht/(zone + 1) * 2 - 1 - k / 2.f * n1.s , -MainClass.height/h1*1.15f, MainClass.height / 18);
 
-            resums[i].setPosition(((float)(i+1))*MainClass.widht/(zone + 1) * 2 - 1,  -MainClass.height/h2);
+            resums[i].setPosition(((float)(i+1))*MainClass.widht/(zone + 1) * 2 - 1,  -MainClass.height/h2*1.15f);
             resums[i].draw();
 
-            n1.draw(resum[i], ((float)(i+1))*MainClass.widht/(zone + 1) * 2 - 1 - k1 * n1.s / 2, -MainClass.height/h2, MainClass.height / 18);
+            n1.draw(resum[i], ((float)(i+1))*MainClass.widht/(zone + 1) * 2 - 1 - k1 / 2.f * n1.s , -MainClass.height/h2*1.15f, MainClass.height / 18);
         }
     }
 

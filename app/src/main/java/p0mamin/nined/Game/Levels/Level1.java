@@ -12,14 +12,15 @@ import p0mamin.nined.State;
 public class Level1 extends Level{
     public Level1(){
         super();
+        lvl = 1;
         map  = new byte[][]{
-                {0, 0, 0, 0, 4, 0, 0, 0},
-                {0, 0, 0, 0, 4, 4, 0, 0},
-                {0, 0, 1, 1, 1, 4, 4, 0},
-                {0, 1, 1, 1, 1, 1, 4, 0},
-                {0, 1, 2, 2, 1, 3, 3, 0},
-                {0, 2, 2, 3, 3, 3, 3, 0},
-                {0, 2, 2, 3, 3, 3, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 1, 1, 0, 0, 0},
+                {0, 0, 0, 1, 1, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0},
                 {0, 0, 0, 0, 0, 0, 0, 0}
         };
         field = new boolean[][]{
@@ -31,16 +32,17 @@ public class Level1 extends Level{
                 {true, true, true,  true, true, true, true, true},
                 {true, true, true,  true, true, true, true, true},
                 {true, true, true,  true, true, true, true, true}};
-        ZONE = 4;
+        ZONE = 1;
         sum = new int[ZONE];
         resum = new int[ZONE];
         SP = new Shape(map ,ZONE);
         GS = new GameScreen(field, map, ZONE);
-
+        //GS.additions.add(new Addition(1, false));
+        //GS.additions.add(new Addition(2, false));
         for(int i = 0;i < ZONE;i++) {
             sum[i] = GS.getSum(map, (byte) (i+1));
         }
-        GS.mix();
+        GS.mix0();
         for(int i=0;i<ZONE;i++) {
             resum[i] = GS.getSum(map, (byte) 1);
         }

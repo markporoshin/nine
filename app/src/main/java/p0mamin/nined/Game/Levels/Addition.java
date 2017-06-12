@@ -26,8 +26,8 @@ public class Addition {
         y = - (3.5f + 0.5f) * MainClass.height / 12; // 6 = 12 / 2
         size = MainClass.widht / 11f;
 
-        fon = new Texture(R.drawable.square5, x, y, size, size);
-        fontrue = new Texture(R.drawable.square5true, x, y, size, size);
+        fon = new Texture(R.drawable.square5true, x, y, size, size);
+        fontrue = new Texture(R.drawable.square5, x, y, size, size);
     }
 
     public void render(float delta){

@@ -25,8 +25,10 @@ public class ChooseScreen {
 
     private float[] pos = new float[num_of_el];
     private float total_x;
+    private float total_y = -0.124f;
     private Button[] levels = new Button[num_of_el];
     private Texture fon;
+    private Texture leveltext;
     private Texture lock;
     private float oldx, oldy;
     private float buf_time;
@@ -39,10 +41,11 @@ public class ChooseScreen {
     public ChooseScreen(){
         for(int i = 0; i < num_of_el; i++){
             //{0, 1.25f, 2.5f , 3.75f, 5};
-            pos[i] = i * 1.25f;
+            pos[i] = i * 2f;
         }
 
-        fon = new Texture(R.drawable.square,  0, 0, 1, 1.5f / MainClass.ratio);
+        fon = new Texture(R.drawable.square4,  0, 0, 1, 1.1f / MainClass.ratio);
+        leveltext = new Texture(R.drawable.leveltext,  0, 0, 0.45f, 0.1f / MainClass.ratio);
         lock  = new Texture(R.drawable.lock2);
         lock.setSize(1f/3, 1f/3);
         font = new Font();
@@ -61,10 +64,15 @@ public class ChooseScreen {
         Log.d("ChooseScreen", "" + total_x);
         for(int i=0; i< HighScoreScreen.MAX_FIGURE; i++){
             HighScoreScreen.figure[i].render(delta, total_x);
+
         }
         for(int i = 0; i < num_of_el; i++){
             setPos();
-            if(Math.abs(pos[i] + total_x) < 1.5) {
+            if(Math.abs(pos[i] + total_x) < 2) {
+                leveltext.setPosition(pos[i] + total_x, total_y + MainClass.widht / 2.15f /*size*/);
+                leveltext.draw();
+                HighScoreScreen.font.setSize(0.045f);
+                HighScoreScreen.font.draw(i+1, pos[i] + total_x + 0.45f / 2 /*size of leveltext */, total_y + MainClass.widht / 2.10f, 0.075f);
                 HighScoreScreen.levels[i].render(delta);
                 if(i > Batch.DB.getInt("lvllost")){
                     lock.setPosition(pos[i] + total_x, (-1f / 12));
@@ -173,68 +181,68 @@ public class ChooseScreen {
 
     private void setLevels(){
         float size = MainClass.widht / 2.5f;
-        HighScoreScreen.levels[0].setPos(new Vec2(pos[0], 0));
-        HighScoreScreen.levels[1].setPos(new Vec2(pos[1], 0));
-        HighScoreScreen.levels[2].setPos(new Vec2(pos[2], 0));
-        HighScoreScreen.levels[3].setPos(new Vec2(pos[3], 0));
-        HighScoreScreen.levels[4].setPos(new Vec2(pos[4], 0));
-        HighScoreScreen.levels[5].setPos(new Vec2(pos[5], 0));
-        HighScoreScreen.levels[6].setPos(new Vec2(pos[6], 0));
-        HighScoreScreen.levels[7].setPos(new Vec2(pos[7], 0));
-        HighScoreScreen.levels[8].setPos(new Vec2(pos[8], 0));
-        HighScoreScreen.levels[9].setPos(new Vec2(pos[9], 0));
-        HighScoreScreen.levels[10].setPos(new Vec2(pos[10], 0));
-        HighScoreScreen.levels[11].setPos(new Vec2(pos[11], 0));
-        HighScoreScreen.levels[12].setPos(new Vec2(pos[12], 0));
-        HighScoreScreen.levels[13].setPos(new Vec2(pos[13], 0));
-        HighScoreScreen.levels[14].setPos(new Vec2(pos[14], 0));
-        HighScoreScreen.levels[15].setPos(new Vec2(pos[15], 0));
-        HighScoreScreen.levels[16].setPos(new Vec2(pos[16], 0));
-        HighScoreScreen.levels[17].setPos(new Vec2(pos[17], 0));
-        HighScoreScreen.levels[18].setPos(new Vec2(pos[18], 0));
-        HighScoreScreen.levels[19].setPos(new Vec2(pos[19], 0));
-        HighScoreScreen.levels[20].setPos(new Vec2(pos[20], 0));
-        HighScoreScreen.levels[21].setPos(new Vec2(pos[21], 0));
-        HighScoreScreen.levels[22].setPos(new Vec2(pos[22], 0));
-        HighScoreScreen.levels[23].setPos(new Vec2(pos[23], 0));
-        HighScoreScreen.levels[24].setPos(new Vec2(pos[24], 0));
-        HighScoreScreen.levels[25].setPos(new Vec2(pos[25], 0));
-        HighScoreScreen.levels[26].setPos(new Vec2(pos[26], 0));
-        HighScoreScreen.levels[27].setPos(new Vec2(pos[27], 0));
-        HighScoreScreen.levels[28].setPos(new Vec2(pos[28], 0));
-        HighScoreScreen.levels[29].setPos(new Vec2(pos[29], 0));
+        HighScoreScreen.levels[0].setPos(new Vec2(pos[0], total_y));
+        HighScoreScreen.levels[1].setPos(new Vec2(pos[1], total_y));
+        HighScoreScreen.levels[2].setPos(new Vec2(pos[2], total_y));
+        HighScoreScreen.levels[3].setPos(new Vec2(pos[3], total_y));
+        HighScoreScreen.levels[4].setPos(new Vec2(pos[4], total_y));
+        HighScoreScreen.levels[5].setPos(new Vec2(pos[5], total_y));
+        HighScoreScreen.levels[6].setPos(new Vec2(pos[6], total_y));
+        HighScoreScreen.levels[7].setPos(new Vec2(pos[7], total_y));
+        HighScoreScreen.levels[8].setPos(new Vec2(pos[8], total_y));
+        HighScoreScreen.levels[9].setPos(new Vec2(pos[9], total_y));
+        HighScoreScreen.levels[10].setPos(new Vec2(pos[10], total_y));
+        HighScoreScreen.levels[11].setPos(new Vec2(pos[11], total_y));
+        HighScoreScreen.levels[12].setPos(new Vec2(pos[12], total_y));
+        HighScoreScreen.levels[13].setPos(new Vec2(pos[13], total_y));
+        HighScoreScreen.levels[14].setPos(new Vec2(pos[14], total_y));
+        HighScoreScreen.levels[15].setPos(new Vec2(pos[15], total_y));
+        HighScoreScreen.levels[16].setPos(new Vec2(pos[16], total_y));
+        HighScoreScreen.levels[17].setPos(new Vec2(pos[17], total_y));
+        HighScoreScreen.levels[18].setPos(new Vec2(pos[18], total_y));
+        HighScoreScreen.levels[19].setPos(new Vec2(pos[19], total_y));
+        HighScoreScreen.levels[20].setPos(new Vec2(pos[20], total_y));
+        HighScoreScreen.levels[21].setPos(new Vec2(pos[21], total_y));
+        HighScoreScreen.levels[22].setPos(new Vec2(pos[22], total_y));
+        HighScoreScreen.levels[23].setPos(new Vec2(pos[23], total_y));
+        HighScoreScreen.levels[24].setPos(new Vec2(pos[24], total_y));
+        HighScoreScreen.levels[25].setPos(new Vec2(pos[25], total_y));
+        HighScoreScreen.levels[26].setPos(new Vec2(pos[26], total_y));
+        HighScoreScreen.levels[27].setPos(new Vec2(pos[27], total_y));
+        HighScoreScreen.levels[28].setPos(new Vec2(pos[28], total_y));
+        HighScoreScreen.levels[29].setPos(new Vec2(pos[29], total_y));
     }
 
     private void setPos(){
-        HighScoreScreen.levels[0].setPos(new Vec2(pos[0] + total_x, 0));
-        HighScoreScreen.levels[1].setPos(new Vec2(pos[1] + total_x, 0));
-        HighScoreScreen.levels[2].setPos(new Vec2(pos[2] + total_x, 0));
-        HighScoreScreen.levels[3].setPos(new Vec2(pos[3] + total_x, 0));
-        HighScoreScreen.levels[4].setPos(new Vec2(pos[4] + total_x, 0));
-        HighScoreScreen.levels[5].setPos(new Vec2(pos[5] + total_x, 0));
-        HighScoreScreen.levels[6].setPos(new Vec2(pos[6] + total_x, 0));
-        HighScoreScreen.levels[7].setPos(new Vec2(pos[7] + total_x, 0));
-        HighScoreScreen.levels[8].setPos(new Vec2(pos[8] + total_x, 0));
-        HighScoreScreen.levels[9].setPos(new Vec2(pos[9] + total_x, 0));
-        HighScoreScreen.levels[10].setPos(new Vec2(pos[10] + total_x, 0));
-        HighScoreScreen.levels[11].setPos(new Vec2(pos[11] + total_x, 0));
-        HighScoreScreen.levels[12].setPos(new Vec2(pos[12] + total_x, 0));
-        HighScoreScreen.levels[13].setPos(new Vec2(pos[13] + total_x, 0));
-        HighScoreScreen.levels[14].setPos(new Vec2(pos[14] + total_x, 0));
-        HighScoreScreen.levels[15].setPos(new Vec2(pos[15] + total_x, 0));
-        HighScoreScreen.levels[16].setPos(new Vec2(pos[16] + total_x, 0));
-        HighScoreScreen.levels[17].setPos(new Vec2(pos[17] + total_x, 0));
-        HighScoreScreen.levels[18].setPos(new Vec2(pos[18] + total_x, 0));
-        HighScoreScreen.levels[19].setPos(new Vec2(pos[19] + total_x, 0));
-        HighScoreScreen.levels[20].setPos(new Vec2(pos[20] + total_x, 0));
-        HighScoreScreen.levels[21].setPos(new Vec2(pos[21] + total_x, 0));
-        HighScoreScreen.levels[22].setPos(new Vec2(pos[22] + total_x, 0));
-        HighScoreScreen.levels[23].setPos(new Vec2(pos[23] + total_x, 0));
-        HighScoreScreen.levels[24].setPos(new Vec2(pos[24] + total_x, 0));
-        HighScoreScreen.levels[25].setPos(new Vec2(pos[25] + total_x, 0));
-        HighScoreScreen.levels[26].setPos(new Vec2(pos[26] + total_x, 0));
-        HighScoreScreen.levels[27].setPos(new Vec2(pos[27] + total_x, 0));
-        HighScoreScreen.levels[28].setPos(new Vec2(pos[28] + total_x, 0));
-        HighScoreScreen.levels[29].setPos(new Vec2(pos[29] + total_x, 0));
+        HighScoreScreen.levels[0].setPos(new Vec2(pos[0] + total_x, total_y));
+        HighScoreScreen.levels[1].setPos(new Vec2(pos[1] + total_x, total_y));
+        HighScoreScreen.levels[2].setPos(new Vec2(pos[2] + total_x, total_y));
+        HighScoreScreen.levels[3].setPos(new Vec2(pos[3] + total_x, total_y));
+        HighScoreScreen.levels[4].setPos(new Vec2(pos[4] + total_x, total_y));
+        HighScoreScreen.levels[5].setPos(new Vec2(pos[5] + total_x, total_y));
+        HighScoreScreen.levels[6].setPos(new Vec2(pos[6] + total_x, total_y));
+        HighScoreScreen.levels[7].setPos(new Vec2(pos[7] + total_x, total_y));
+        HighScoreScreen.levels[8].setPos(new Vec2(pos[8] + total_x, total_y));
+        HighScoreScreen.levels[9].setPos(new Vec2(pos[9] + total_x, total_y));
+        HighScoreScreen.levels[10].setPos(new Vec2(pos[10] + total_x, total_y));
+        HighScoreScreen.levels[11].setPos(new Vec2(pos[11] + total_x, total_y));
+        HighScoreScreen.levels[12].setPos(new Vec2(pos[12] + total_x, total_y));
+        HighScoreScreen.levels[13].setPos(new Vec2(pos[13] + total_x, total_y));
+        HighScoreScreen.levels[14].setPos(new Vec2(pos[14] + total_x, total_y));
+        HighScoreScreen.levels[15].setPos(new Vec2(pos[15] + total_x, total_y));
+        HighScoreScreen.levels[16].setPos(new Vec2(pos[16] + total_x, total_y));
+        HighScoreScreen.levels[17].setPos(new Vec2(pos[17] + total_x, total_y));
+        HighScoreScreen.levels[18].setPos(new Vec2(pos[18] + total_x, total_y));
+        HighScoreScreen.levels[19].setPos(new Vec2(pos[19] + total_x, total_y));
+        HighScoreScreen.levels[20].setPos(new Vec2(pos[20] + total_x, total_y));
+        HighScoreScreen.levels[21].setPos(new Vec2(pos[21] + total_x, total_y));
+        HighScoreScreen.levels[22].setPos(new Vec2(pos[22] + total_x, total_y));
+        HighScoreScreen.levels[23].setPos(new Vec2(pos[23] + total_x, total_y));
+        HighScoreScreen.levels[24].setPos(new Vec2(pos[24] + total_x, total_y));
+        HighScoreScreen.levels[25].setPos(new Vec2(pos[25] + total_x, total_y));
+        HighScoreScreen.levels[26].setPos(new Vec2(pos[26] + total_x, total_y));
+        HighScoreScreen.levels[27].setPos(new Vec2(pos[27] + total_x, total_y));
+        HighScoreScreen.levels[28].setPos(new Vec2(pos[28] + total_x, total_y));
+        HighScoreScreen.levels[29].setPos(new Vec2(pos[29] + total_x, total_y));
     }
 }

@@ -44,18 +44,18 @@ public class Texture {
 
         this.sizex = sizex;
         this.sizey = sizey;
-        this.x = 0;
-        this.y = 0;
+        this.x = x;
+        this.y = y;
         int z = 0;
         float[] vertices = {
                 //coordinates for sky
-                x-sizex, y+sizey * Render.ratio, z,  0, 0,
-                x+sizex, y+sizey * Render.ratio, z,  1, 0,
-                x+sizex, y-sizey * Render.ratio, z,  1, 1,
+                this.x-sizex, this.y+sizey * Render.ratio, z,  0, 0,
+                this.x+sizex, this.y+sizey * Render.ratio, z,  1, 0,
+                this.x+sizex, this.y-sizey * Render.ratio, z,  1, 1,
 
-                x-sizex, y-sizey * Render.ratio, z,  0, 1,
-                x-sizex, y+sizey * Render.ratio, z,  0, 0,
-                x+sizex, y-sizey * Render.ratio, z,  1, 1,
+                this.x-sizex, this.y-sizey * Render.ratio, z,  0, 1,
+                this.x-sizex, this.y+sizey * Render.ratio, z,  0, 0,
+                this.x+sizex, this.y-sizey * Render.ratio, z,  1, 1,
 
 
         };

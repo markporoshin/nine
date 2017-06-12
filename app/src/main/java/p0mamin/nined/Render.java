@@ -12,6 +12,7 @@ import android.view.MotionEvent;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
+import static android.opengl.GLES10.glBlendFunc;
 import static android.opengl.GLES20.GL_ALPHA;
 import static android.opengl.GLES20.glClear;
 import static android.opengl.GLES20.glClearColor;
@@ -134,7 +135,11 @@ public class Render implements GLSurfaceView.Renderer
 
     private void createViewMatrix() {
         //glEnable(GL_ALPHA);
-
+        GLES20.glDisable(GLES20.GL_CULL_FACE);
+        GLES20.glDisable(GLES20.GL_DEPTH_TEST);
+        GLES20.glEnable(GLES20.GL_BLEND);
+        glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
+        //GLES20.glBlendFunc(GLES20.GL_ONE, GLES20.GL_ONE);
         // точка полоения камеры
         float eyeX = 0f;
         float eyeY = 0f;

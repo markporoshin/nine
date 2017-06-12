@@ -30,7 +30,7 @@ public class HelpScreen {
 
     public HelpScreen(){
         fon = new Texture(R.drawable.square4,  0, 0, 1, 1.5f / MainClass.ratio);
-        fon2 = new Texture(R.drawable.fon,  0, 0f, size, size / 7 * 11);
+        fon2 = new Texture(R.drawable.fon,  0, 0.04f, size, size / 7 * 11);
 
         finish = new Finish();
         setHelps();
@@ -41,9 +41,9 @@ public class HelpScreen {
 
     public void render(float delta){
         if(total_x < -pos[num_of_el-2] ){
-            fon2.setPosition(pos[num_of_el-2] + total_x, 0);
+            fon2.setPosition(pos[num_of_el-2] + total_x, 0.04f);
         }if(total_x > -pos[1]){
-            fon2.setPosition(pos[1] + total_x, 0);
+            fon2.setPosition(pos[1] + total_x, 0.04f);
         }
         fon.draw();
         fon2.draw();
